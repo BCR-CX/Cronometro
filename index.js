@@ -1,4 +1,3 @@
-
 // Variáveis Começar() 
 let minutos = document.querySelector("span#minutos");
 let segundos = document.querySelector("span#segundos");
@@ -9,11 +8,6 @@ let switch_Começar;
 // Variáveis Verificador() 
 var modifier
 const audio = new Audio("assets/audio.mp3");
-
-localStorage.removeItem("0")
-localStorage.removeItem("18")
-localStorage.removeItem("null")
-localStorage.removeItem("undefined")
 
 
 try {
@@ -132,12 +126,16 @@ document.querySelector("button#copy-btn").addEventListener("click", function () 
     return navigator.clipboard.writeText(minutos.textContent);
 });
 
-window.addEventListener("keydown", function (event) {
+window.addEventListener("keyup", function (event) {
     if (event.ctrlKey && event.key == "c") {
+        document.querySelector("button#copy-btn").style.transition = "all 0.2s"
+        document.querySelector("button#copy-btn").classList.replace("btn-outline-danger", "btn-danger")
         navigator.clipboard.writeText(minutos.value);
-        document.querySelector("button#copy-btn")
         audio.play();
     }
+    this.setTimeout(() => {
+        document.querySelector("button#copy-btn").classList.replace("btn-danger", "btn-outline-danger")
+    }, 500)
 })
 document.querySelector("button#play-btn").addEventListener("click", Começar);
 document.getElementById("darker-btn").addEventListener("click", verificador)
