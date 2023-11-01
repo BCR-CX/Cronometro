@@ -10,6 +10,10 @@ let switch_Começar;
 var modifier
 const audio = new Audio("assets/audio.mp3");
 
+localStorage.removeItem("0")
+localStorage.removeItem("18")
+localStorage.removeItem("null")
+localStorage.removeItem("undefined")
 
 
 try {
@@ -25,18 +29,10 @@ try {
     }
     if (localStorage.getItem("switch_Começar") == Boolean) {
         switch_Começar = localStorage.getItem("switch_Começar");
-        console.log("##1##")
-        console.log("var",  switch_Começar)
-        console.log("local",localStorage.getItem("switch_Começar"))
-        console.log("#####")
 
     } else {
         switch_Começar = false
         localStorage.setItem("switch_Começar", switch_Começar)
-        console.log("##1##")
-        console.log("var",switch_Começar)
-        console.log("local",localStorage.getItem("switch_Começar"))
-        console.log("#####")
     }
 } catch {
     minutos.innerHTML = "00";
@@ -63,8 +59,6 @@ document.querySelector("button#restart-btn").addEventListener("click", function 
 });
 
 function Começar() {
-    localStorage.setItem("segundos", i);
-    localStorage.setItem("minutos", j);
     if (switch_Começar == true) {
         intervalo = setInterval(function () {
             i++
@@ -89,18 +83,22 @@ function Começar() {
             }
             minutosFormatado = j % 60;
             switch_Começar = false
+            localStorage.setItem("segundos", i);
+            localStorage.setItem("minutos", j);
             localStorage.setItem("switch_Começar", switch_Começar)
+            console.log(localStorage)
             document.querySelector("span#Horas").innerHTML = `${Math.floor(j / 60)}:${minutosFormatado < 10 ? "0" + minutosFormatado : minutosFormatado}`;
         }, 1000);
         document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause")
         document.querySelector("button#play-btn").classList.replace("btn-outline-success", "btn-outline-danger")
         return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
     } else {
+        clearInterval(intervalo);
         document.querySelector("button#play-btn").classList.replace("bi-pause", "bi-play")
         document.querySelector("button#play-btn").classList.replace("btn-outline-danger", "btn-outline-success")
-        clearInterval(intervalo);
         switch_Começar = true
         localStorage.setItem("switch_Começar", switch_Começar)
+        console.log(localStorage)
         return switch_Começar, localStorage.getItem("switch_Começar");
     }
 }
@@ -137,10 +135,10 @@ document.querySelector("button#copy-btn").addEventListener("click", function () 
 window.addEventListener("keydown", function (event) {
     if (event.ctrlKey && event.key == "c") {
         navigator.clipboard.writeText(minutos.value);
+        document.querySelector("button#copy-btn")
         audio.play();
     }
 })
-
 document.querySelector("button#play-btn").addEventListener("click", Começar);
 document.getElementById("darker-btn").addEventListener("click", verificador)
 document.addEventListener("DOMContentLoaded", Começar)
