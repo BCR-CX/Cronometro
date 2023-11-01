@@ -1,0 +1,18 @@
+{
+    "name": "Cronômetro BCR-CX",
+    "version": "1.1.0",
+    "description": "Facilitates task management with a stopwatch.",
+    "manifest_version": 3,
+    "author": "https://github.com/Gabriel-Sousa-Amorim",
+    "action": {
+        "default_title": "Cronômetro BCR-CX",
+        "default_popup": "index.html"
+    },
+    "icons": {
+        "16": "icons/16x16.png",
+        "32": "icons/32x32.png",
+        "48": "icons/48x48.png",
+        "64": "icons/64x64.png",
+        "128": "icons/128x128.png"
+    }
+}
