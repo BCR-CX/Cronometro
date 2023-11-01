@@ -6,7 +6,6 @@ var minutosFormatado;
 let intervalo = 0;
 let switch_Começar;
 
-
 // Variáveis Verificador() 
 var modifier
 const audio = new Audio("assets/audio.mp3");
@@ -24,13 +23,20 @@ try {
         localStorage.setItem("modifier", 0);
         modifier = 0;
     }
-    if (localStorage.getItem("switch_Começar") != null) {
+    if (localStorage.getItem("switch_Começar") == Boolean) {
         switch_Começar = localStorage.getItem("switch_Começar");
+        console.log("##1##")
+        console.log("var",  switch_Começar)
+        console.log("local",localStorage.getItem("switch_Começar"))
+        console.log("#####")
 
     } else {
-        localStorage.setItem("switch_Começar", true)
-        switch_Começar = true
-
+        switch_Começar = false
+        localStorage.setItem("switch_Começar", switch_Começar)
+        console.log("##1##")
+        console.log("var",switch_Começar)
+        console.log("local",localStorage.getItem("switch_Começar"))
+        console.log("#####")
     }
 } catch {
     minutos.innerHTML = "00";
@@ -82,14 +88,12 @@ function Começar() {
                 segundos.value = i;
             }
             minutosFormatado = j % 60;
+            switch_Começar = false
+            localStorage.setItem("switch_Começar", switch_Começar)
             document.querySelector("span#Horas").innerHTML = `${Math.floor(j / 60)}:${minutosFormatado < 10 ? "0" + minutosFormatado : minutosFormatado}`;
         }, 1000);
         document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause")
         document.querySelector("button#play-btn").classList.replace("btn-outline-success", "btn-outline-danger")
-        switch_Começar = false
-        localStorage.setItem("switch_Começar", switch_Começar)
-        console.log(switch_Começar)
-        console.log(localStorage.getItem("switch_Começar"))
         return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
     } else {
         document.querySelector("button#play-btn").classList.replace("bi-pause", "bi-play")
@@ -97,8 +101,6 @@ function Começar() {
         clearInterval(intervalo);
         switch_Começar = true
         localStorage.setItem("switch_Começar", switch_Começar)
-        console.log(switch_Começar)
-        console.log(localStorage.getItem("switch_Começar"))
         return switch_Começar, localStorage.getItem("switch_Começar");
     }
 }
