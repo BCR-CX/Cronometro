@@ -14,68 +14,6 @@ let j;
 let modifier
 const audio = new Audio("assets/audio.mp3");
 
-// Reseta todos valores de minutos e segundos para 0;
-function Começar() {
-    clearInterval(intervalo);
-    if (switch_Começar == true) {
-        intervalo = setInterval(function () {
-            // Aumenta o contador i, a cada ciclo/intervalo  
-            i++;
-            segundos.textContent = "0" + i;
-            segundos.value = i;
-            // Se i for maior que 59, reinicia o valor de segundos para 0   
-            if (i > 59) {
-                i = 0;
-                segundos.textContent = 0;
-                segundos.value = 0;
-                // Se j for maior ou igual a 9, aparecerá j sem um zero na frente.   
-                if (j >= 9) {
-                    minutos.textContent = ++j;
-                    minutos.value = j;
-                    return j
-                }
-                // Se j for menor ou igual a 9, aparecerá j com um zero na frente.   
-                else {
-                    minutos.textContent = "0" + ++j;
-                    minutos.value = j;
-                }
-            }
-            // Se i for maior ou igual a 10, aparecerá i sem um zero na frente.   
-            if (i >= 10) {
-                segundos.textContent = i;
-                segundos.value = i;
-            }
-            // 
-            minutosFormatado = j % 60;
-            localStorage.setItem("segundos", i);
-            localStorage.setItem("minutos", j);
-            document.querySelector("span#Horas").innerHTML = `${Math.floor(j / 60)}:${minutosFormatado < 10 ? "0" + minutosFormatado : minutosFormatado}`;
-            chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos") });
-        }, 1000);
-        // 
-        document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause");
-        document.querySelector("button#play-btn").classList.replace("btn-outline-success", "btn-outline-danger");
-
-        // 
-        switch_Começar = false;
-        localStorage.setItem("switch_Começar", switch_Começar);
-        chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: switch_Começar })
-
-        return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
-    } else {
-        // 
-        document.querySelector("button#play-btn").classList.replace("btn-outline-danger", "btn-outline-success")
-        document.querySelector("button#play-btn").classList.replace("bi-pause", "bi-play")
-
-        // 
-        switch_Começar = true;
-        localStorage.setItem("switch_Começar", switch_Começar);
-        chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: switch_Começar })
-
-        return switch_Começar, localStorage.getItem("switch_Começar");
-    }
-}
-
 try {
     // Definindo no index.HTML os textos dos elementos span#minutos e span#segundos;
     minutos.textContent = localStorage.getItem("minutos");
@@ -114,6 +52,89 @@ try {
     segundos.innerHTML = "00";
     switch_Começar = true
     modifier = 0;
+}
+
+// Reseta todos valores de minutos e segundos para 0;
+function Começar() {
+    clearInterval(intervalo);
+    if (switch_Começar == true) {
+        intervalo = setInterval(function () {
+            // Aumenta o contador i, a cada ciclo/intervalo  
+            i++;
+            segundos.textContent = "0" + i;
+            segundos.value = i;
+            // Se i for maior que 59, reinicia o valor de segundos para 0   
+            if (i > 59) {
+                i = 0;
+                segundos.textContent = 0;
+                segundos.value = 0;
+                // Se j for maior ou igual a 9, aparecerá j sem um zero na frente.   
+                if (j >= 9) {
+                    minutos.textContent = ++j;
+                    minutos.value = j;
+                    return j
+                }
+                // Se j for menor ou igual a 9, aparecerá j com um zero na frente.   
+                else {
+                    minutos.textContent = "0" + ++j;
+                    minutos.value = j;
+                }
+            }
+            // Se i for maior ou igual a 10, aparecerá i sem um zero na frente.   
+            if (i >= 10) {
+                segundos.textContent = i;
+                segundos.value = i;
+            }
+            // Transformamos minutos para base 60
+            minutosFormatado = j % 60;
+            // 'Setamos' as variáveis i e j que são os contadores de segundos e minutos respectivamente
+            localStorage.setItem("segundos", i);
+            localStorage.setItem("minutos", j);
+            document.querySelector("span#Horas").innerHTML = `${Math.floor(j / 60)}:${minutosFormatado < 10 ? "0" + minutosFormatado : minutosFormatado}`;
+            chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos") });
+        }, 1000);
+        // 
+        document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause");
+        document.querySelector("button#play-btn").classList.replace("btn-outline-success", "btn-outline-danger");
+
+        // 
+        switch_Começar = false;
+        localStorage.setItem("switch_Começar", switch_Começar);
+        chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: switch_Começar })
+
+        return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
+    } else {
+        // 
+        document.querySelector("button#play-btn").classList.replace("btn-outline-danger", "btn-outline-success")
+        document.querySelector("button#play-btn").classList.replace("bi-pause", "bi-play")
+
+        // 
+        switch_Começar = true;
+        localStorage.setItem("switch_Começar", switch_Começar);
+        chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: switch_Começar })
+
+        return switch_Começar, localStorage.getItem("switch_Começar");
+    }
+}
+
+function verificador() {
+    if (modifier % 2 == 0) {
+        document.querySelectorAll(".bg-dark").forEach(i => { i.classList.replace("bg-dark", "bg-light") });
+        document.querySelectorAll(".text-light").forEach(i => { i.classList.replace("text-light", "text-dark") });
+        document.querySelectorAll(".btn-outline-light").forEach(i => { i.classList.replace("btn-outline-light", "btn-outline-dark") });
+        document.querySelector("button#fill-btn").style.filter = "invert(1) hue-rotate(50deg) brightness(100%)";
+        document.querySelector("main").style.backdropFilter = "brightness(90%)"
+        localStorage.setItem("modifier", modifier)
+        return ++modifier;
+    } else {
+        document.querySelectorAll(".bg-light").forEach(i => { i.classList.replace("bg-light", "bg-dark") });
+        document.querySelectorAll(".text-dark").forEach(i => { i.classList.replace("text-dark", "text-light") });
+        document.querySelectorAll(".btn-outline-dark").forEach(i => { i.classList.replace("btn-outline-dark", "btn-outline-light") });
+        document.querySelector("button#fill-btn").style.filter = "hue-rotate(0deg)";
+        document.querySelector("main").style.backdropFilter = "brightness(100%)"
+        localStorage.setItem("modifier", modifier)
+        return ++modifier;
+    }
 }
 
 document.querySelector("button#fill-btn").addEventListener("click", function () {
@@ -173,27 +194,6 @@ chrome.runtime.onMessage.addListener(
             })
     }
 );
-
-
-function verificador() {
-    if (modifier % 2 == 0) {
-        document.querySelectorAll(".bg-dark").forEach(i => { i.classList.replace("bg-dark", "bg-light") });
-        document.querySelectorAll(".text-light").forEach(i => { i.classList.replace("text-light", "text-dark") });
-        document.querySelectorAll(".btn-outline-light").forEach(i => { i.classList.replace("btn-outline-light", "btn-outline-dark") });
-        document.querySelector("button#fill-btn").style.filter = "invert(1) hue-rotate(50deg) brightness(100%)";
-        document.querySelector("main").style.backdropFilter = "brightness(90%)"
-        localStorage.setItem("modifier", modifier)
-        return ++modifier;
-    } else {
-        document.querySelectorAll(".bg-light").forEach(i => { i.classList.replace("bg-light", "bg-dark") });
-        document.querySelectorAll(".text-dark").forEach(i => { i.classList.replace("text-dark", "text-light") });
-        document.querySelectorAll(".btn-outline-dark").forEach(i => { i.classList.replace("btn-outline-dark", "btn-outline-light") });
-        document.querySelector("button#fill-btn").style.filter = "hue-rotate(0deg)";
-        document.querySelector("main").style.backdropFilter = "brightness(100%)"
-        localStorage.setItem("modifier", modifier)
-        return ++modifier;
-    }
-}
 
 document.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {

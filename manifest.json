@@ -1,6 +1,6 @@
 {
     "name": "Cronômetro BCR-CX",
-    "version": "2.0",
+    "version": "2.0.1",
     "description": "Facilitates task management with a stopwatch.",
     "manifest_version": 3,
     "author": "https://github.com/Gabriel-Sousa-Amorim",
