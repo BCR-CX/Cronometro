@@ -37,11 +37,12 @@ function ComeçarBackGround(i, j, switch_Começar) {
         return switch_Começar;
     } else {
         intervalo_BACKGROUND = setInterval(function () {
-            i++
+            i++;
             if (i > 59) {
                 return ++j, i = 0;
             }
             chrome.storage.local.set({ segundos_BACKGROUND: i, minutos_BACKGROUND: j, switch_Começar_BACKGROUND: switch_Começar });
+            console.log(j, i);
         }, 1000);
         return switch_Começar, intervalo_BACKGROUND;
     }
@@ -57,6 +58,13 @@ chrome.runtime.onConnect.addListener(function (externalPort) {
                 return false
             }
             else if (switch_Começar_BACKGROUND == Boolean(false)) {
+                () => {
+                        i++;
+                        if (i > 59) {
+                            return ++j, i = 0;
+                        }
+                        return chrome.storage.local.set({ segundos_BACKGROUND: i, minutos_BACKGROUND: j, switch_Começar_BACKGROUND: switch_Começar });
+                };
                 ComeçarBackGround(segundos_BACKGROUND, minutos_BACKGROUND, switch_Começar_BACKGROUND);
             }
         })
@@ -75,10 +83,3 @@ chrome.runtime.onConnect.addListener(function () {
         })();
     }
 })
-
-chrome.runtime.onMessage.addListener((tab) => {
-    chrome.scripting.executeScript({
-        target: { tabId: tab.tabId },
-        files: ["content-script.js"]
-    });
-});

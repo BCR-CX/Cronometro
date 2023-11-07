@@ -182,14 +182,14 @@ chrome.runtime.onMessage.addListener(
             chrome.storage.local.get(["segundos_BACKGROUND", "minutos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
                 // Definindo no index.HTML os textos dos elementos span#minutos e span#segundos;
                 minutos.textContent = result.minutos_BACKGROUND;
-                segundos.textContent = result.segundos_BACKGROUND;
+                segundos.textContent = ++result.segundos_BACKGROUND;
                 minutos.value = result.minutos_BACKGROUND;
-                segundos.value = result.segundos_BACKGROUND;
+                segundos.value = ++result.segundos_BACKGROUND;
 
                 // Definindo contadores de minutos e segundos;
                 i = result.segundos_BACKGROUND;
                 j = result.minutos_BACKGROUND;
-                localStorage.setItem("segundos", result.segundos_BACKGROUND)
+                localStorage.setItem("segundos", ++result.segundos_BACKGROUND)
                 localStorage.setItem("minutos", result.minutos_BACKGROUND)
                 Começar()
                 return segundos, minutos, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos")
