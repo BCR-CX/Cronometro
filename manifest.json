@@ -1,6 +1,6 @@
 {
     "name": "Cronômetro BCR-CX",
-    "version": "2.0.1",
+    "version": "3.0.0",
     "description": "Facilitates task management with a stopwatch.",
     "manifest_version": 3,
     "author": "https://github.com/Gabriel-Sousa-Amorim",
@@ -17,6 +17,26 @@
     },
     "background": {
         "service_worker": "background.js"
-        },
-    "permissions": ["storage"]
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "scripting"
+    ],
+    "host_permissions": [
+        "https://github.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://github.com/*",
+                "https://*.zendesk.com/*"
+            ],
+            "js": [
+                "fill-script.js",
+                "sum-script.js"
+            ]
+        }
+    ]
 }

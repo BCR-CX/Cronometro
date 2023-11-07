@@ -1,0 +1,38 @@
+#copy-btn {
+    color: #2283D9;
+    border-color: #2283D9;    
+}
+#fill-btn {
+    color: #2155F1;
+    border-color: #2155F1;
+}
+
+#sum-btn {
+    color: #2155F1;
+    border-color: #2155F1;
+}
+
+#restart-btn {
+    color: #2283D9;
+    border-color: #2283D9;    
+}
+
+#copy-btn:hover {
+    color: #FFF;
+    background-color: #2283D9;
+}
+
+#fill-btn:hover {
+    color: #FFF;
+    background-color: #2155F1;
+}
+
+#sum-btn:hover {
+    color: #FFF;
+    background-color: #2155F1;
+}
+
+#restart-btn:hover {
+    color: #FFF;
+    background-color: #2283D9;
+}

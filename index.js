@@ -26,11 +26,11 @@ try {
     j = localStorage.getItem("minutos");
 
     // Definindo verificador de modificação de tema;
-    if (localStorage.getItem("modifier") != false) {
+    if (localStorage.getItem("modifier") == true ) {
         modifier = localStorage.getItem("modifier");
     } else {
         localStorage.setItem("modifier", 0);
-        modifier = localStorage.getItem("modifier");
+        modifier = 0;
     }
 
     // Definindo verificador de execução da função Começar();
@@ -52,6 +52,24 @@ try {
     segundos.innerHTML = "00";
     switch_Começar = true
     modifier = 0;
+}
+
+// Verificador para mudança de tema
+function verificador() {
+    console.log(modifier)
+    if (modifier % 2 == 0) {
+        document.querySelectorAll(".bg-dark").forEach(i => { i.classList.replace("bg-dark", "bg-light") });
+        document.querySelectorAll(".text-light").forEach(i => { i.classList.replace("text-light", "text-dark") });
+        document.querySelectorAll(".btn-outline-light").forEach(i => { i.classList.replace("btn-outline-light", "btn-outline-dark") });
+        localStorage.setItem("modifier", modifier)
+        return ++modifier;
+    } else {
+        document.querySelectorAll(".bg-light").forEach(i => { i.classList.replace("bg-light", "bg-dark") });
+        document.querySelectorAll(".text-dark").forEach(i => { i.classList.replace("text-dark", "text-light") });
+        document.querySelectorAll(".btn-outline-dark").forEach(i => { i.classList.replace("btn-outline-dark", "btn-outline-light") });
+        localStorage.setItem("modifier", modifier)
+        return ++modifier;
+    }
 }
 
 // Reseta todos valores de minutos e segundos para 0;
@@ -95,7 +113,6 @@ function Começar() {
         }, 1000);
         // 
         document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause");
-        document.querySelector("button#play-btn").classList.replace("btn-outline-success", "btn-outline-danger");
 
         // 
         switch_Começar = false;
@@ -105,7 +122,6 @@ function Começar() {
         return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
     } else {
         // 
-        document.querySelector("button#play-btn").classList.replace("btn-outline-danger", "btn-outline-success")
         document.querySelector("button#play-btn").classList.replace("bi-pause", "bi-play")
 
         // 
@@ -117,28 +133,18 @@ function Começar() {
     }
 }
 
-function verificador() {
-    if (modifier % 2 == 0) {
-        document.querySelectorAll(".bg-dark").forEach(i => { i.classList.replace("bg-dark", "bg-light") });
-        document.querySelectorAll(".text-light").forEach(i => { i.classList.replace("text-light", "text-dark") });
-        document.querySelectorAll(".btn-outline-light").forEach(i => { i.classList.replace("btn-outline-light", "btn-outline-dark") });
-        document.querySelector("button#fill-btn").style.filter = "invert(1) hue-rotate(50deg) brightness(100%)";
-        document.querySelector("main").style.backdropFilter = "brightness(90%)"
-        localStorage.setItem("modifier", modifier)
-        return ++modifier;
-    } else {
-        document.querySelectorAll(".bg-light").forEach(i => { i.classList.replace("bg-light", "bg-dark") });
-        document.querySelectorAll(".text-dark").forEach(i => { i.classList.replace("text-dark", "text-light") });
-        document.querySelectorAll(".btn-outline-dark").forEach(i => { i.classList.replace("btn-outline-dark", "btn-outline-light") });
-        document.querySelector("button#fill-btn").style.filter = "hue-rotate(0deg)";
-        document.querySelector("main").style.backdropFilter = "brightness(100%)"
-        localStorage.setItem("modifier", modifier)
-        return ++modifier;
-    }
-}
 
-document.querySelector("button#fill-btn").addEventListener("click", function () {
-    return false;
+document.querySelector("#fill-btn").addEventListener("click", function () {
+    (async () => {
+        const response = await chrome.runtime.sendMessage({ greeting: "Fill_Fields" });
+        console.log(response);
+    })();
+});
+document.querySelector("#sum-btn").addEventListener("click", function () {
+    (async () => {
+        const response = await chrome.runtime.sendMessage({ greeting: "Sum_Field_Values" });
+        console.log(response);
+    })();
 });
 
 // Reseta todos valores de minutos e segundos para 0;
@@ -155,7 +161,6 @@ document.querySelector("button#restart-btn").addEventListener("click", function 
     }
 });
 
-chrome.runtime.onConnect
 document.querySelector("button#play-btn").addEventListener("click", function () {
     chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: localStorage.getItem("switch_Começar") });
     chrome.storage.local.get(["minutos_BACKGROUND", "segundos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
@@ -173,7 +178,7 @@ document.querySelector("button#play-btn").addEventListener("click", function () 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         let result_BACKGROUND
-        if (request.greeting === "StopwatchContinue")
+        if (request.greeting === "StopwatchContinue" )
             chrome.storage.local.get(["segundos_BACKGROUND", "minutos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
                 // Definindo no index.HTML os textos dos elementos span#minutos e span#segundos;
                 minutos.textContent = result.minutos_BACKGROUND;
@@ -184,11 +189,8 @@ chrome.runtime.onMessage.addListener(
                 // Definindo contadores de minutos e segundos;
                 i = result.segundos_BACKGROUND;
                 j = result.minutos_BACKGROUND;
-                console.log(segundos)
-                console.log(minutos)
                 localStorage.setItem("segundos", result.segundos_BACKGROUND)
                 localStorage.setItem("minutos", result.minutos_BACKGROUND)
-                console.log("Antes", result.segundos_BACKGROUND , result.minutos_BACKGROUND, "valores index.js" ,segundos.textContent, minutos.textContent, segundos.value, minutos.textContent, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos"));
                 Começar()
                 return segundos, minutos, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos")
             })
@@ -220,3 +222,16 @@ window.addEventListener("keyup", function (event) {
 
 document.getElementById("darker-btn").addEventListener("click", verificador);
 document.addEventListener("DOMContentLoaded", verificador);
+
+chrome.runtime.onInstalled.addListener(function(){
+    if (minutos.innerHTML != "0" || segundos.innerHTML != "0") {
+        localStorage.setItem("minutos", 0)
+        localStorage.setItem("segundos", 0)
+        minutos.innerHTML = "00";
+        segundos.innerHTML = "00";
+        minutos.value = 0;
+        segundos.value = 0;
+        i = 0;
+        j = 0;
+    }
+});

@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <title>Cronomêtro</title>
 </head>
-<body class="bg-dark">
-    <header style="backdrop-filter: brightness(80%);" class="d-flex container-sm justify-content-between p-3">
+<body class="bg-dark" style="width: 350px;">
+    <header style="backdrop-filter: brightness(80%);" class="d-flex container-sm justify-content-between py-4 px-3">
         <h2 class="text-light text-center">Cronomêtro BCR-CX</h2>
         <button title="Tema" id="darker-btn" class="btn btn-sm btn-outline-light bi-sun" value="true" ></button>
         <a target="_blank" href="https://github.com/BCR-CX/cronometro" title="Informações" class="h1 link-primary"><i class="bi-info "></i></a>
     </header>
-    
-    <main class="d-flex container-fluid p-3 justify-content-center">
+    <section style="backdrop-filter: brightness(92%);" class="mb-0 p-2" id="section-title">
+        <h4 class="text-center text-light">Tempo</h3>
+    </section>
+    <main class="d-flex container-fluid justify-content-center pb-3">
         <section class="d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center my-3" style="width:200px">
-                <h4 class="text-center text-light">Tempo</h3>
-                <button title="Copiar / Ctrl+C" id="copy-btn" class="btn btn-sm btn-outline-danger bi-clipboard"></button>
-                <button title="Preencher Campos" id="fill-btn" class="btn btn-sm btn-outline-warning bi-ui-checks"></button>
-                <button title="Reiniciar" id="restart-btn" class="btn btn-sm btn-outline-primary bi-arrow-clockwise"></button>
+                <button title="Copiar / Ctrl+C" id="copy-btn" class="btn btn-sm bi-clipboard"></button>
+                <button title="Preencher Campos" id="fill-btn" class="btn btn-sm  bi-ui-checks"></button>
+                <button title="Somar Tempo" id="sum-btn" class="btn btn-sm bi-plus-lg"></button>
+                <button title="Reiniciar" id="restart-btn" class="btn btn-sm bi-arrow-clockwise"></button>
             </div>
             <p class="text-light text-center" id="tempo">
                 <span class="text-center text-light" id="minutos" value="0">00</span> :
                 <span class="text-center text-light" id="segundos" value="0">00</span>
             </p>
             <div class="d-flex justify-content-center">
-                <button title="Iniciar/Pausar" id="play-btn" class="btn btn-sm btn-outline-success rounded-circle bi-play"></button>
+                <button title="Iniciar/Pausar" id="play-btn" class="btn btn-sm btn-outline-dark rounded-circle bi-play"></button>
             </div>
 
         </section>
@@ -41,6 +44,7 @@
     </footer>
     <script src="index.js"></script>
     <script src="background.js"></script>
+    <script src="content-script.js"></script>
     <!--<script src="service_worker.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
