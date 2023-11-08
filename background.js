@@ -30,19 +30,22 @@ chrome.tabs.onActivated.addListener((tab) => {
 
 
 function ComeçarBackGround(i, j, switch_Começar) {
+    console.log("Case 4");
     clearInterval(intervalo_BACKGROUND);
     if (switch_Começar == true) {
+        console.log("Case 5 true");
         clearInterval(intervalo_BACKGROUND);
         chrome.storage.local.set({ segundos_BACKGROUND: i, minutos_BACKGROUND: j, switch_Começar_BACKGROUND: switch_Começar })
         return switch_Começar;
     } else {
+        console.log("Case 5 false");
         intervalo_BACKGROUND = setInterval(function () {
             i++;
             if (i > 59) {
                 return ++j, i = 0;
             }
-            chrome.storage.local.set({ segundos_BACKGROUND: i, minutos_BACKGROUND: j, switch_Começar_BACKGROUND: switch_Começar });
-            console.log(j, i);
+            console.log(j, i)
+            return segundos_BACKGROUND = i, minutos_BACKGROUND = j;
         }, 1000);
         return switch_Começar, intervalo_BACKGROUND;
     }
@@ -50,22 +53,26 @@ function ComeçarBackGround(i, j, switch_Começar) {
 
 chrome.runtime.onConnect.addListener(function (externalPort) {
     externalPort.onDisconnect.addListener(function () {
+        console.log("Case 1")
         chrome.storage.local.get(["segundos_BACKGROUND", "minutos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
             segundos_BACKGROUND = result.segundos_BACKGROUND;
             minutos_BACKGROUND = result.minutos_BACKGROUND;
             switch_Começar_BACKGROUND = new Boolean(result.switch_Começar_BACKGROUND);
+            console.log("Case 2")
             if (switch_Começar_BACKGROUND == Boolean(true)) {
+                console.log("Case 3 false")
                 return false
             }
             else if (switch_Começar_BACKGROUND == Boolean(false)) {
                 () => {
-                        i++;
-                        if (i > 59) {
-                            return ++j, i = 0;
-                        }
-                        return chrome.storage.local.set({ segundos_BACKGROUND: i, minutos_BACKGROUND: j, switch_Começar_BACKGROUND: switch_Começar });
+                    i++;
+                    if (i > 59) {
+                        return ++j, i = 0;
+                    }
+                    return segundos_BACKGROUND = i, minutos_BACKGROUND = j, switch_Começar_BACKGROUND = switch_Começar;
                 };
-                ComeçarBackGround(segundos_BACKGROUND, minutos_BACKGROUND, switch_Começar_BACKGROUND);
+                console.log("Case 3 true")
+                ComeçarBackGround(++segundos_BACKGROUND, minutos_BACKGROUND, switch_Começar_BACKGROUND);
             }
         })
     });
@@ -78,7 +85,7 @@ chrome.runtime.onConnect.addListener(function () {
     else if (switch_Começar_BACKGROUND == Boolean(false)) {
         clearInterval(intervalo_BACKGROUND);
         (async () => {
-            const response = await chrome.runtime.sendMessage({ greeting: "StopwatchContinue" });
+            const response = await chrome.runtime.sendMessage({greeting: "StopwatchContinue", minutos_BACKGROUND: minutos_BACKGROUND, segundos_BACKGROUND: segundos_BACKGROUND});
             console.log(response);
         })();
     }

@@ -26,7 +26,7 @@ try {
     j = localStorage.getItem("minutos");
 
     // Definindo verificador de modificação de tema;
-    if (localStorage.getItem("modifier") == true ) {
+    if (localStorage.getItem("modifier") == true) {
         modifier = localStorage.getItem("modifier");
     } else {
         localStorage.setItem("modifier", 0);
@@ -61,12 +61,14 @@ function verificador() {
         document.querySelectorAll(".bg-dark").forEach(i => { i.classList.replace("bg-dark", "bg-light") });
         document.querySelectorAll(".text-light").forEach(i => { i.classList.replace("text-light", "text-dark") });
         document.querySelectorAll(".btn-outline-light").forEach(i => { i.classList.replace("btn-outline-light", "btn-outline-dark") });
+        document.querySelector("#darker-btn").classList.replace("bi-sun", "bi-moon-stars-fill")
         localStorage.setItem("modifier", modifier)
         return ++modifier;
     } else {
         document.querySelectorAll(".bg-light").forEach(i => { i.classList.replace("bg-light", "bg-dark") });
         document.querySelectorAll(".text-dark").forEach(i => { i.classList.replace("text-dark", "text-light") });
         document.querySelectorAll(".btn-outline-dark").forEach(i => { i.classList.replace("btn-outline-dark", "btn-outline-light") });
+        document.querySelector("#darker-btn").classList.replace("bi-moon-stars-fill", "bi-sun")
         localStorage.setItem("modifier", modifier)
         return ++modifier;
     }
@@ -175,28 +177,6 @@ document.querySelector("button#play-btn").addEventListener("click", function () 
     Começar();
 });
 
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        let result_BACKGROUND
-        if (request.greeting === "StopwatchContinue" )
-            chrome.storage.local.get(["segundos_BACKGROUND", "minutos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
-                // Definindo no index.HTML os textos dos elementos span#minutos e span#segundos;
-                minutos.textContent = result.minutos_BACKGROUND;
-                segundos.textContent = ++result.segundos_BACKGROUND;
-                minutos.value = result.minutos_BACKGROUND;
-                segundos.value = ++result.segundos_BACKGROUND;
-
-                // Definindo contadores de minutos e segundos;
-                i = result.segundos_BACKGROUND;
-                j = result.minutos_BACKGROUND;
-                localStorage.setItem("segundos", ++result.segundos_BACKGROUND)
-                localStorage.setItem("minutos", result.minutos_BACKGROUND)
-                Começar()
-                return segundos, minutos, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos")
-            })
-    }
-);
-
 document.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         Começar();
@@ -223,7 +203,24 @@ window.addEventListener("keyup", function (event) {
 document.getElementById("darker-btn").addEventListener("click", verificador);
 document.addEventListener("DOMContentLoaded", verificador);
 
-chrome.runtime.onInstalled.addListener(function(){
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.greeting === "StopwatchContinue")
+            minutos.textContent = request.minutos_BACKGROUND;
+            segundos.textContent = request.segundos_BACKGROUND;
+            minutos.value = request.minutos_BACKGROUND;
+            segundos.value = request.segundos_BACKGROUND;
+            // Definindo contadores de minutos e segundos;
+            i = request.segundos_BACKGROUND;
+            j = request.minutos_BACKGROUND;
+            localStorage.setItem("segundos", request.segundos_BACKGROUND);
+            localStorage.setItem("minutos", request.minutos_BACKGROUND);
+            Começar()
+            return segundos, minutos, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos")
+    }
+);
+
+chrome.runtime.onInstalled.addListener(function () {
     if (minutos.innerHTML != "0" || segundos.innerHTML != "0") {
         localStorage.setItem("minutos", 0)
         localStorage.setItem("segundos", 0)
