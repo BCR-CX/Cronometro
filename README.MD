@@ -8,7 +8,8 @@ Possuímos uma interface simples, com dois temas, o claro e o escuro, que mudam 
 
 <img width="400px" src="https://github.com/BCR-CX/Cronometro/assets/97068125/8005ec98-dbe8-4376-a853-5cd42908021f" alt="Cronômetro Claro">
 <img width="400px" src="https://github.com/BCR-CX/Cronometro/assets/97068125/2ddd959d-1a73-4a47-9e4f-cb86423462df" alt="Cronômetro Escuro">
- 
+
+
 ### Botão Copiar
 Sendo o Primeiro Botão, este botão copia apenas o valor dos minutos.
 
