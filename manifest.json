@@ -19,6 +19,7 @@
         "service_worker": "background.js"
     },
     "permissions": [
+        "offscreen",
         "storage",
         "activeTab",
         "tabs",
