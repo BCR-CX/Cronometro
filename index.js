@@ -1,5 +1,5 @@
 //Conexão entre index.js e background.js 
-chrome.runtime.connect()
+chrome.runtime.connect({ name: "index" });
 
 // Variáveis função Começar();
 let minutos = document.querySelector("span#minutos");
@@ -13,6 +13,7 @@ let j;
 // Variáveis função Verificador() e demais;
 let modifier
 const audio = new Audio("assets/audio.mp3");
+audio.volume = 0.25;
 
 try {
     // Definindo no index.HTML os textos dos elementos span#minutos e span#segundos;
@@ -111,16 +112,16 @@ function Começar() {
             localStorage.setItem("segundos", i);
             localStorage.setItem("minutos", j);
             document.querySelector("span#Horas").innerHTML = `${Math.floor(j / 60)}:${minutosFormatado < 10 ? "0" + minutosFormatado : minutosFormatado}`;
+            console.log(j,i);
             chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos") });
         }, 1000);
         // 
         document.querySelector("button#play-btn").classList.replace("bi-play", "bi-pause");
-
-        // 
+        
         switch_Começar = false;
         localStorage.setItem("switch_Começar", switch_Começar);
         chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: switch_Começar })
-
+        
         return switch_Começar, intervalo, localStorage.getItem("switch_Começar");
     } else {
         // 
@@ -164,16 +165,6 @@ document.querySelector("button#restart-btn").addEventListener("click", function 
 });
 
 document.querySelector("button#play-btn").addEventListener("click", function () {
-    chrome.storage.local.set({ minutos_BACKGROUND: localStorage.getItem("minutos"), segundos_BACKGROUND: localStorage.getItem("segundos"), switch_Começar_BACKGROUND: localStorage.getItem("switch_Começar") });
-    chrome.storage.local.get(["minutos_BACKGROUND", "segundos_BACKGROUND", "switch_Começar_BACKGROUND"]).then((result) => {
-        console.log("result.segundos_BACKGROUND", result.segundos_BACKGROUND);
-        console.log("result.minutos_BACKGROUND", result.minutos_BACKGROUND);
-        console.log("result.switch_Começar_BACKGROUND", result.switch_Começar_BACKGROUND);
-    });
-    (async () => {
-        const response = await chrome.runtime.sendMessage({ greeting: "RunInBackground" });
-        console.log(response);
-    })();
     Começar();
 });
 
