@@ -210,7 +210,6 @@ chrome.runtime.onMessage.addListener(
             return segundos, minutos, i, j, localStorage.getItem("minutos"), localStorage.getItem("segundos")
     }
 );
-
 chrome.runtime.onInstalled.addListener(function () {
     if (minutos.innerHTML != "0" || segundos.innerHTML != "0") {
         localStorage.setItem("minutos", 0)

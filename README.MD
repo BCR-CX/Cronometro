@@ -14,10 +14,10 @@ Possuímos uma interface simples, com dois temas, o claro e o escuro, que mudam 
 Sendo o Primeiro Botão, este botão copia apenas o valor dos minutos.
 
 ### Botão Preencher Campos
-Este é o segundo botão e copia e cola o valor dos minutos nos campos de Tempo (Min) do Github, e de Tempo de implementação (Min) da Zendesk. Para funcionar você precisa estar com ou o ticket em tela, ou a Issue em tela.
+Este é o segundo botão e copia e cola o valor dos minutos no Tempo de implementação (Min) da Zendesk. Para funcionar você precisa estar com ou o ticket em tela.
 
 ### Botão Somar Campos
-Com o símbolo de soma, este campo soma aos valores dos campos de Tempo (Min) do Github, e de Tempo de implementação (Min) da Zendesk, somando os minutos ao valor anterior, tal qual o último botão mostrado para que funcione você precisa estar com ou o ticket em tela, ou a Issue em tela.
+Com o símbolo de soma, Soma o tempo presente anteriormente com o tempo no cronômetro, no Tempo de Implementação (Min) da Zendesk, somando os minutos ao valor anterior, tal qual o último botão mostrado para que funcione você precisa estar com ou o ticket em tela.
 
 ### Botão Reiniciar
 Este é o último botão e reinicia os minutos e segundos do cronômetro.

@@ -1,4 +1,3 @@
-
 chrome.storage.local.get(["minutos_BACKGROUND"]).then((result) => {
     if (location.href.match(/^https:\/\/\w*\.zendesk\.com/gm)) {
         console.log("fill");
